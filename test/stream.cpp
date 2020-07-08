@@ -3,14 +3,14 @@
 #include <chrono>
 #include <iostream>
 
+using namespace xoshiro;
+
+// for testing with Dieharder, etc
+
 int main()
 {
-    xoshiro64 rng(std::chrono::system_clock::now().time_since_epoch().count());
-    xoshiro64::result_type x;
-
-    // xoshiro64
-    // 1.22e+07
-    // WEAK: diehard_sums
+    xoshiro256pp rng(std::chrono::system_clock::now().time_since_epoch().count());
+    xoshiro256pp::result_type x;
 
     while (true) {
         x = rng();
