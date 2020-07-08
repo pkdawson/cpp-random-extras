@@ -13,7 +13,7 @@ template <class T>
 static void BM_PRNG(benchmark::State& state) {
     T rng(42);
     for (auto _ : state) {
-        auto x = rng();
+        benchmark::DoNotOptimize(rng());
     }
 }
 
@@ -42,11 +42,11 @@ static void BM_Roll(benchmark::State& state) {
     TDist dist3("1d4-1");
     TDist dist4("100d2");
     for (auto _ : state) {
-        dist(rng);
-        dist1(rng);
-        dist2(rng);
-        dist3(rng);
-        dist4(rng);
+        benchmark::DoNotOptimize(dist(rng));
+        benchmark::DoNotOptimize(dist1(rng));
+        benchmark::DoNotOptimize(dist2(rng));
+        benchmark::DoNotOptimize(dist3(rng));
+        benchmark::DoNotOptimize(dist4(rng));
     }
 }
 
@@ -56,5 +56,7 @@ BENCHMARK_TEMPLATE(BM_Roll, xoshiro128pp, dice_distribution<>);
 BENCHMARK_TEMPLATE(BM_Roll, xoroshiro64ss, dice_distribution<>);
 BENCHMARK_TEMPLATE(BM_Roll, xoshiro256pp, dice_distribution<int, boost::random::uniform_int_distribution<int>>);
 BENCHMARK_TEMPLATE(BM_Roll, xoshiro256pp, dice_distribution<int, boost::random::uniform_smallint<int>>);
+BENCHMARK_TEMPLATE(BM_Roll, xoshiro128pp, dice_distribution<int, boost::random::uniform_smallint<int>>);
+BENCHMARK_TEMPLATE(BM_Roll, xoroshiro64ss, dice_distribution<int, boost::random::uniform_smallint<int>>);
 
 BENCHMARK_MAIN();

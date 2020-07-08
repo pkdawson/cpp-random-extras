@@ -246,6 +246,7 @@ namespace xoshiro
     }
 
     // xoshiro128+ | xoshiro128plus.c
+    template <>
     uint32_t random_engine<uint32_t, 128, RngType::XoshiroPlus>::next()
     {
         const uint32_t result = s[0] + s[3];

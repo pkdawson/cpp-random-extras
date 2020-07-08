@@ -1,6 +1,7 @@
 #include <string_view>
 #include <stdexcept>
 #include <charconv>
+#include <random>
 
 template <class int_type = int, class dist_type = std::uniform_int_distribution<int_type>>
 class dice_distribution
