@@ -98,6 +98,11 @@ namespace xoshiro
         {
             return (x << k) | (x >> (64 - k));
         }
+
+        static inline uint32_t rotl(const uint32_t x, int k)
+        {
+            return (x << k) | (x >> (32 - k));
+        }
     };
 
     // xoshiro256++ | xoshiro256plusplus.c
