@@ -2,10 +2,10 @@
 Some random engines and distributions for C++17 which play nice with `<random>` and `Boost.Random`.
 
 ## xoshiro.hpp
-A C++ implementation of the [xoshiro/xoroshiro](http://prng.di.unimi.it/) family of PRNGS.
+A C++ implementation of the [xoshiro/xoroshiro](http://prng.di.unimi.it/) family of PRNGs.
 Very fast non-cryptographic PRNGs with small state.
 
-```
+```cpp
 xoshiro256pp rng(31337); // xoshiro256++
 xoroshiro64ss rng2(42); // xoroshiro64**
 ```
@@ -17,7 +17,7 @@ specialization as is used for next().
 A random distribution class for very basic dice expressions (`XdY` or `XdY +/- Z` only).
 Intended to be fast to parse (no regex) and super fast to roll.
 
-```
+```cpp
 xoshiro256pp rng(42);
 dice_distribution<int, boost::random::uniform_smallint<int>> dist("3d6 + 1");
 fmt::print("roll = {}\n", dist(rng));
