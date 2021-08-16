@@ -39,6 +39,7 @@ namespace xoshiro
                 s[i] = seed;
             }
             next();
+            next();
         }
 
         random_engine(uint64_t seed1, uint64_t seed2)
@@ -51,6 +52,7 @@ namespace xoshiro
                 s[i] = seed1;
                 s[i + 1] = seed2;
             }
+            next();
             next();
         }
 
