@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <array>
+#include <bit>
 
 namespace xoshiro
 {
@@ -95,23 +96,13 @@ namespace xoshiro
             z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
             return z ^ (z >> 31);
         }
-
-        static inline uint64_t rotl(const uint64_t x, int k)
-        {
-            return (x << k) | (x >> (64 - k));
-        }
-
-        static inline uint32_t rotl(const uint32_t x, int k)
-        {
-            return (x << k) | (x >> (32 - k));
-        }
     };
 
     // xoshiro256++ | xoshiro256plusplus.c
     template <>
     uint64_t random_engine<uint64_t, 256, RngType::XoshiroPlusPlus>::next()
     {
-        const uint64_t result = rotl(s[0] + s[3], 23) + s[0];
+        const uint64_t result = std::rotl(s[0] + s[3], 23) + s[0];
 
         const uint64_t t = s[1] << 17;
 
@@ -122,7 +113,7 @@ namespace xoshiro
 
         s[2] ^= t;
 
-        s[3] = rotl(s[3], 45);
+        s[3] = std::rotl(s[3], 45);
 
         return result;
     }
@@ -131,7 +122,7 @@ namespace xoshiro
     template <>
     uint64_t random_engine<uint64_t, 256, RngType::XoshiroStarStar>::next()
     {
-        const uint64_t result = rotl(s[1] * 5, 7) * 9;
+        const uint64_t result = std::rotl(s[1] * 5, 7) * 9;
 
         const uint64_t t = s[1] << 17;
 
@@ -142,7 +133,7 @@ namespace xoshiro
 
         s[2] ^= t;
 
-        s[3] = rotl(s[3], 45);
+        s[3] = std::rotl(s[3], 45);
 
         return result;
     }
@@ -162,7 +153,7 @@ namespace xoshiro
 
         s[2] ^= t;
 
-        s[3] = rotl(s[3], 45);
+        s[3] = std::rotl(s[3], 45);
 
         return result;
     }
@@ -173,11 +164,11 @@ namespace xoshiro
     {
         const uint64_t s0 = s[0];
         uint64_t s1 = s[1];
-        const uint64_t result = rotl(s0 + s1, 17) + s0;
+        const uint64_t result = std::rotl(s0 + s1, 17) + s0;
 
         s1 ^= s0;
-        s[0] = rotl(s0, 49) ^ s1 ^ (s1 << 21);
-        s[1] = rotl(s1, 28);
+        s[0] = std::rotl(s0, 49) ^ s1 ^ (s1 << 21);
+        s[1] = std::rotl(s1, 28);
 
         return result;
     }
@@ -188,11 +179,11 @@ namespace xoshiro
     {
         const uint64_t s0 = s[0];
         uint64_t s1 = s[1];
-        const uint64_t result = rotl(s0 * 5, 7) * 9;
+        const uint64_t result = std::rotl(s0 * 5, 7) * 9;
 
         s1 ^= s0;
-        s[0] = rotl(s0, 24) ^ s1 ^ (s1 << 16);
-        s[1] = rotl(s1, 37);
+        s[0] = std::rotl(s0, 24) ^ s1 ^ (s1 << 16);
+        s[1] = std::rotl(s1, 37);
 
         return result;
     }
@@ -206,8 +197,8 @@ namespace xoshiro
         const uint64_t result = s0 + s1;
 
         s1 ^= s0;
-        s[0] = rotl(s0, 24) ^ s1 ^ (s1 << 16);
-        s[1] = rotl(s1, 37);
+        s[0] = std::rotl(s0, 24) ^ s1 ^ (s1 << 16);
+        s[1] = std::rotl(s1, 37);
 
         return result;
     }
@@ -216,7 +207,7 @@ namespace xoshiro
     template <>
     uint32_t random_engine<uint32_t, 128, RngType::XoshiroPlusPlus>::next()
     {
-        const uint32_t result = rotl(s[0] + s[3], 7) + s[0];
+        const uint32_t result = std::rotl(s[0] + s[3], 7) + s[0];
 
         const uint32_t t = s[1] << 9;
 
@@ -227,7 +218,7 @@ namespace xoshiro
 
         s[2] ^= t;
 
-        s[3] = rotl(s[3], 11);
+        s[3] = std::rotl(s[3], 11);
 
         return result;
     }
@@ -236,7 +227,7 @@ namespace xoshiro
     template <>
     uint32_t random_engine<uint32_t, 128, RngType::XoshiroStarStar>::next()
     {
-        const uint32_t result = rotl(s[1] * 5, 7) * 9;
+        const uint32_t result = std::rotl(s[1] * 5, 7) * 9;
 
         const uint32_t t = s[1] << 9;
 
@@ -247,7 +238,7 @@ namespace xoshiro
 
         s[2] ^= t;
 
-        s[3] = rotl(s[3], 11);
+        s[3] = std::rotl(s[3], 11);
 
         return result;
     }
@@ -267,7 +258,7 @@ namespace xoshiro
 
         s[2] ^= t;
 
-        s[3] = rotl(s[3], 11);
+        s[3] = std::rotl(s[3], 11);
 
         return result;
     }
@@ -278,11 +269,11 @@ namespace xoshiro
     {
         const uint32_t s0 = s[0];
         uint32_t s1 = s[1];
-        const uint32_t result = rotl(s0 * 0x9E3779BB, 5) * 5;
+        const uint32_t result = std::rotl(s0 * 0x9E3779BB, 5) * 5;
 
         s1 ^= s0;
-        s[0] = rotl(s0, 26) ^ s1 ^ (s1 << 9);
-        s[1] = rotl(s1, 13);
+        s[0] = std::rotl(s0, 26) ^ s1 ^ (s1 << 9);
+        s[1] = std::rotl(s1, 13);
 
         return result;
     }
@@ -296,8 +287,8 @@ namespace xoshiro
         const uint32_t result = s0 * 0x9E3779BB;
 
         s1 ^= s0;
-        s[0] = rotl(s0, 26) ^ s1 ^ (s1 << 9);
-        s[1] = rotl(s1, 13);
+        s[0] = std::rotl(s0, 26) ^ s1 ^ (s1 << 9);
+        s[1] = std::rotl(s1, 13);
 
         return result;
     }

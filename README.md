@@ -1,5 +1,5 @@
 # cpp-random-extras
-Some random engines and distributions for C++17 which play nice with `<random>` and `Boost.Random`.
+Some random engines and distributions for C++20 which play nice with `<random>` and `Boost.Random`.
 
 ## xoshiro.hpp
 A C++ implementation of the [xoshiro/xoroshiro](http://prng.di.unimi.it/) family of PRNGs.
