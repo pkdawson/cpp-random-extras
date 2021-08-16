@@ -32,7 +32,7 @@ namespace xoshiro
             return std::numeric_limits<result_type>::max();
         }
 
-        random_engine(uint64_t seed)
+        constexpr random_engine(uint64_t seed)
         {
             for (int i = 0; i < s.size(); ++i)
             {
@@ -43,7 +43,7 @@ namespace xoshiro
             next();
         }
 
-        random_engine(uint64_t seed1, uint64_t seed2)
+        constexpr random_engine(uint64_t seed1, uint64_t seed2)
         {
             // is there a better way to seed with two 64-bit ints?
             for (int i = 0; i < s.size(); i += 2)
@@ -57,39 +57,39 @@ namespace xoshiro
             next();
         }
 
-        random_engine(state_type newState)
+        constexpr random_engine(state_type newState)
         {
             s = newState;
         }
 
         // default constructor provided only for deserialization
-        random_engine()
+        constexpr random_engine()
         {
         }
 
         // serialize
-        state_type state() const
+        constexpr state_type state() const
         {
             return s;
         }
 
         // deserialize
-        void state(state_type newState)
+        constexpr void state(state_type newState)
         {
             s = newState;
         }
 
-        result_type operator()()
+        constexpr result_type operator()() noexcept
         {
             return next();
         }
 
-        result_type next();
+        constexpr result_type next() noexcept;
 
     private:
         state_type s;
 
-        static uint64_t splitmix64(uint64_t x)
+        static constexpr uint64_t splitmix64(uint64_t x) noexcept
         {
             uint64_t z = (x += 0x9e3779b97f4a7c15);
             z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
@@ -100,7 +100,7 @@ namespace xoshiro
 
     // xoshiro256++ | xoshiro256plusplus.c
     template <>
-    uint64_t random_engine<uint64_t, 256, RngType::XoshiroPlusPlus>::next()
+    constexpr uint64_t random_engine<uint64_t, 256, RngType::XoshiroPlusPlus>::next() noexcept
     {
         const uint64_t result = std::rotl(s[0] + s[3], 23) + s[0];
 
@@ -120,7 +120,7 @@ namespace xoshiro
 
     // xoshiro256** | xoshiro256starstar.c
     template <>
-    uint64_t random_engine<uint64_t, 256, RngType::XoshiroStarStar>::next()
+    constexpr uint64_t random_engine<uint64_t, 256, RngType::XoshiroStarStar>::next() noexcept
     {
         const uint64_t result = std::rotl(s[1] * 5, 7) * 9;
 
@@ -140,7 +140,7 @@ namespace xoshiro
 
     // xoshiro256+ | xoshiro256plus.c
     template <>
-    uint64_t random_engine<uint64_t, 256, RngType::XoshiroPlus>::next()
+    constexpr uint64_t random_engine<uint64_t, 256, RngType::XoshiroPlus>::next() noexcept
     {
         const uint64_t result = s[0] + s[3];
 
@@ -160,7 +160,7 @@ namespace xoshiro
 
     // xoroshiro128++ | xoroshiro128plusplus.c
     template <>
-    uint64_t random_engine<uint64_t, 128, RngType::XoroshiroPlusPlus>::next()
+    constexpr uint64_t random_engine<uint64_t, 128, RngType::XoroshiroPlusPlus>::next() noexcept
     {
         const uint64_t s0 = s[0];
         uint64_t s1 = s[1];
@@ -175,7 +175,7 @@ namespace xoshiro
 
     // xoroshiro128** | xoroshiro128starstar.c
     template <>
-    uint64_t random_engine<uint64_t, 128, RngType::XoroshiroStarStar>::next()
+    constexpr uint64_t random_engine<uint64_t, 128, RngType::XoroshiroStarStar>::next() noexcept
     {
         const uint64_t s0 = s[0];
         uint64_t s1 = s[1];
@@ -190,7 +190,7 @@ namespace xoshiro
 
     // xoroshiro128+ | xoroshiro128plus.c
     template <>
-    uint64_t random_engine<uint64_t, 128, RngType::XoroshiroPlus>::next()
+    constexpr uint64_t random_engine<uint64_t, 128, RngType::XoroshiroPlus>::next() noexcept
     {
         const uint64_t s0 = s[0];
         uint64_t s1 = s[1];
@@ -205,7 +205,7 @@ namespace xoshiro
 
     // xoshiro128++ | xoshiro128plusplus.c
     template <>
-    uint32_t random_engine<uint32_t, 128, RngType::XoshiroPlusPlus>::next()
+    constexpr uint32_t random_engine<uint32_t, 128, RngType::XoshiroPlusPlus>::next() noexcept
     {
         const uint32_t result = std::rotl(s[0] + s[3], 7) + s[0];
 
@@ -225,7 +225,7 @@ namespace xoshiro
 
     // xoshiro128** | xoshiro128starstar.c
     template <>
-    uint32_t random_engine<uint32_t, 128, RngType::XoshiroStarStar>::next()
+    constexpr uint32_t random_engine<uint32_t, 128, RngType::XoshiroStarStar>::next() noexcept
     {
         const uint32_t result = std::rotl(s[1] * 5, 7) * 9;
 
@@ -245,7 +245,7 @@ namespace xoshiro
 
     // xoshiro128+ | xoshiro128plus.c
     template <>
-    uint32_t random_engine<uint32_t, 128, RngType::XoshiroPlus>::next()
+    constexpr uint32_t random_engine<uint32_t, 128, RngType::XoshiroPlus>::next() noexcept
     {
         const uint32_t result = s[0] + s[3];
 
@@ -265,7 +265,7 @@ namespace xoshiro
 
     // xoroshiro64** | xoroshiro64starstar.c
     template <>
-    uint32_t random_engine<uint32_t, 64, RngType::XoroshiroStarStar>::next()
+    constexpr uint32_t random_engine<uint32_t, 64, RngType::XoroshiroStarStar>::next() noexcept
     {
         const uint32_t s0 = s[0];
         uint32_t s1 = s[1];
@@ -280,7 +280,7 @@ namespace xoshiro
 
     // xoroshiro64* | xoroshiro64star.c
     template <>
-    uint32_t random_engine<uint32_t, 64, RngType::XoroshiroStar>::next()
+    constexpr uint32_t random_engine<uint32_t, 64, RngType::XoroshiroStar>::next() noexcept
     {
         const uint32_t s0 = s[0];
         uint32_t s1 = s[1];
